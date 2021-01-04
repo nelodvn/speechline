@@ -9,8 +9,7 @@ import time
 
 class Outline:
     def __init__(self):
-        self.__api_base = 'https://api.outline.com/v3/'
-        self.__api_base_get_article = 'https://api.outline.com/'
+        self.__api_base = 'https://api.outline.com/'
         self.__get_article_endoint = 'get_article_cdn?id='
         self.__parse_endpoint = 'parse_article?source_url='
         self.__parse_headers = {'authority': 'api.outline.com',
@@ -25,14 +24,14 @@ class Outline:
 
     def parse_article(self, url: str = None):
         if not url:
-            raise FileNotFoundError('url inválida')
-        response = requests.get(self.__api_base+self.__parse_endpoint + url, headers=self.__parse_headers)
+            raise ValueError
+        response = requests.get(self.__api_base+'v3/'+self.__parse_endpoint + url, headers=self.__parse_headers)
         return response.json()
 
     def get_article_cdn(self, id: str = None):
         if not id:
-            raise FileNotFoundError('url inválida')
-        url = self.__api_base_get_article + self.__get_article_endoint + id
+            raise ValueError
+        url = self.__api_base + self.__get_article_endoint + id
         response = requests.get(url, headers=self.__parse_headers)
         return response.json()
 
@@ -51,5 +50,5 @@ if __name__ == '__main__':
     t = Thread(target=text_speech.save, args=(file_name,))
     t.start()
     time.sleep(5)
-    os.system("vlc --rate 2 %s vlc://quit" % file_name)
+    os.system("cvlc --rate 2 %s vlc://quit" % file_name)
     print(':)')
