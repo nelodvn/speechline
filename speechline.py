@@ -31,8 +31,7 @@ class Outline:
     def get_article_cdn(self, id: str = None):
         if not id:
             raise ValueError
-        url = self.__api_base + self.__get_article_endoint + id
-        response = requests.get(url, headers=self.__parse_headers)
+        response = requests.get(self.__api_base + self.__get_article_endoint + id, headers=self.__parse_headers)
         return response.json()
 
 
