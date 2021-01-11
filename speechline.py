@@ -24,17 +24,17 @@ class Outline:
                                 'accept-language': 'en-US,en;q=0.9,pt;q=0.8'
                                 }
 
-    def parse_article(self, url: str = None):
+    def __get_json(self, url):
         if not url:
             raise ValueError
-        response = requests.get(self.__api_base+'v3/'+self.__parse_endpoint + url, headers=self.__parse_headers)
+        response = requests.get(url, headers=self.__parse_headers)
         return response.json()
 
+    def parse_article(self, url: str = None):
+        return self.__get_json (self.__api_base+'v3/'+self.__parse_endpoint + url)
+
     def get_article_cdn(self, id: str = None):
-        if not id:
-            raise ValueError
-        response = requests.get(self.__api_base + self.__get_article_endoint + id, headers=self.__parse_headers)
-        return response.json()
+        return self.__get_json(self.__api_base + self.__get_article_endoint + id)
 
 
 if __name__ == '__main__':
