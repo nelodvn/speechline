@@ -5,6 +5,8 @@ import requests
 from bs4 import BeautifulSoup
 from threading import Thread
 import time
+#import vlc
+import textwrap
 
 
 class Outline:
@@ -46,8 +48,10 @@ if __name__ == '__main__':
     soup = BeautifulSoup(resp.get('data').get('html'), 'html.parser')
     text_speech = gTTS(text=soup.text.replace('\n', ' '), lang='pt', slow=False, tld="com.br")
     file_name = '%s.mp3' % resp.get('data', {}).get('short_code')
-    t = Thread(target=text_speech.save, args=(file_name,))
-    t.start()
-    time.sleep(5)
+    (Thread(target=text_speech.save, args=(file_name,))).start()
+    time.sleep(3)
+
+    print("\n".join(textwrap.wrap(soup.text, width=100)))
     os.system("cvlc --rate 2 %s vlc://quit" % file_name)
-    print(':)')
+    # player = vlc.MediaPlayer(file_name)
+    # player.play()
